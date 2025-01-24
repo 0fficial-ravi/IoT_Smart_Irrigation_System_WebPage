@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Smart Control Dashboard</title>
+    <link rel="stylesheet" href="./about-style.css">
+    <link rel="shortcut icon" href="./resources/fav3.png" type="image/x-icon">
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleButtons = document.querySelectorAll('.toggle-button');
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    this.blur();
+                });
+            });
+
+            // Hamburger menu toggle
+            const hamburger = document.getElementById('hamburger');
+            const sidebar = document.getElementById('sidebar');
+
+            hamburger.addEventListener('click', function () {
+                sidebar.classList.toggle('show');
+            });
+
+            // Close hamburger menu if clicked elsewhere
+            document.addEventListener('click', function (e) {
+                if (!sidebar.contains(e.target) && !hamburger.contains(e.target)) {
+                    sidebar.classList.remove('show');
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div id="sidebar" class="sidebar">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="future.html">Future</a></li>
+            </ul>
+        </div>
+
+        <!-- Header -->
+        <div class="header">
+            <div id="hamburger" class="hamburger">&#9776;</div>
+            <h1>About Us</h1>
+        </div>
+
+        <!-- About Section -->
+        <div class="about-section">
+            <div class="team-member">
+                <div class="member-img">
+                    <img src="./resources/man.png" alt="Team Member 1" onerror="this.src='./resources/man.png';">
+                </div>
+                <div class="member-description">
+                    <h3>Rohan Singhania</h3>
+                    <p>Cool dude like to play and tinker with hardware parts.</p>
+                    <a href="https://www.linkedin.com/in/member1" target="_blank">
+                        <img src="./resources/linkedin.svg" alt="LinkedIn" class="linkedin-logo">
+                    </a>
+                </div>
+            </div>
+
+            <div class="team-member">
+                <div class="member-img">
+                    <img src="./guys/g1.jpg" alt="Team Member 2" onerror="this.src='./resources/man.png';">
+                </div>
+                <div class="member-description">
+                    <h3>Raunak Kumar</h3>
+                    <p>Likes exploring the world of tech with a curious mind, while always making time for music and the great outdoors to stay inspired and grounded.</p>
+                    <a href="https://www.linkedin.com/in/raunak-kumar-a5868826b/" target="_blank">
+                        <img src="./resources/linkedin.svg" alt="LinkedIn" class="linkedin-logo">
+                    </a>
+                </div>
+            </div>
+
+            <div class="team-member">
+                <div class="member-img">
+                    <img src="./resources/man.png" alt="Team Member 3" onerror="this.src='./resources/man.png';">
+                </div>
+                <div class="member-description">
+                    <h3>Rahul Sharma</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse quia labore nulla recusandae velit et, omnis iste dignissimos alias nemo dolor architecto hic rem. Vero blanditiis expedita aspernatur veritatis voluptate ipsam, non doloremque quod impedit! Laudantium possimus asperiores fugiat explicabo. Assumenda laboriosam natus voluptatem fuga magnam tenetur quibusdam quaerat non!</p>
+                    <a href="https://www.linkedin.com/in/member3" target="_blank">
+                        <img src="./resources/linkedin.svg" alt="LinkedIn" class="linkedin-logo">
+                    </a>
+                </div>
+            </div>
+
+            <div class="team-member">
+                <div class="member-img">
+                    <img src="./resources/man.png" alt="Team Member 4" onerror="this.src='./resources/man.png';">
+                </div>
+                <div class="member-description">
+                    <h3>Ramkrishn Rai</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur reiciendis qui assumenda, aut nam inventore rem tempore cupiditate. Laudantium, corporis sint facilis id deserunt laborum libero modi odio rem itaque tempora molestias distinctio! Reprehenderit quisquam non molestiae suscipit illo ipsam, rem, natus, eius esse cum libero laudantium ipsa totam architecto?</p>
+                    <a href="https://www.linkedin.com/in/member4" target="_blank">
+                        <img src="./resources/linkedin.svg" alt="LinkedIn" class="linkedin-logo">
+                    </a>
+                </div>
+            </div>
+
+            <div class="team-member">
+                <div class="member-img">
+                    <img src="./resources/man.png" alt="Team Member 5" onerror="this.src='./resources/man.png';">
+                </div>
+                <div class="member-description">
+                    <h3>Piyush Kumar</h3>
+                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere sequi magni in sint sunt! Libero animi vitae hic, quasi numquam sit illo delectus quae velit asperiores laboriosam officiis, provident iusto eligendi nesciunt quam ipsum laborum molestias enim eos dignissimos quia iure deleniti alias? Harum amet, eos accusantium id maiores doloremque.</p>
+                    <a href="https://www.linkedin.com/in/member5" target="_blank">
+                        <img src="./resources/linkedin.svg" alt="LinkedIn" class="linkedin-logo">
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+
+</html>

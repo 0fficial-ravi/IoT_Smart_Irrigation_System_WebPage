@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Future Implementations | Smart Control Dashboard</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./future-style.css">
+    <link rel="shortcut icon" href="./resources/fav3.png" type="image/x-icon">
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleButtons = document.querySelectorAll('.toggle-button');
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    this.blur();
+                });
+            });
+
+            // Hamburger menu toggle
+            const hamburger = document.getElementById('hamburger');
+            const sidebar = document.getElementById('sidebar');
+
+            hamburger.addEventListener('click', function () {
+                sidebar.classList.toggle('show');
+            });
+
+            // Close hamburger menu if clicked elsewhere
+            document.addEventListener('click', function (e) {
+                if (!sidebar.contains(e.target) && !hamburger.contains(e.target)) {
+                    sidebar.classList.remove('show');
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div id="sidebar" class="sidebar">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </div>
+
+        <!-- Header -->
+        <div class="header">
+            <div id="hamburger" class="hamburger">&#9776;</div>
+            <h1>Future Implementations</h1>
+        </div>
+
+        <!-- Future Section -->
+        <div class="future-section">
+            <div class="future-card">
+                <h2>Our Vision for the Future</h2>
+                <p>
+                    As we continue to enhance our system, we aim to incorporate advanced technologies like IoT,
+                    machine learning, and automation to make the dashboard more intelligent and capable. Some of the
+                    features we are working on include predictive analytics for resource management, automated control
+                    systems based on sensor data, and cloud integration for real-time updates and remote monitoring.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+
+</html>

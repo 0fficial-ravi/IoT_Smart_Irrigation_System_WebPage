@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+@font-face {
+    font-family: 'MyFont';
+    src: url('./resources/AlteHaasGroteskBold.ttf');
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: #f9fafb;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1400px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    box-sizing: border-box;
+}
+
+.header h1 {
+    font-family: 'MyFont';
+    font-size: 2rem;
+    font-weight: 500;
+    color: #1e293b;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* About Section */
+.about-section {
+    display: grid;
+    grid-template-columns: 1fr; /* Single column for vertical layout */
+    gap: 20px;
+    width: 100%;
+    margin-top: 30px;
+}
+
+/* Team Member */
+.team-member {
+    display: flex;
+    flex-direction: column; /* Stack the image and description vertically */
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.team-member:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.member-img img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.member-description {
+    margin-top: 20px; /* Space between the image and the description */
+    text-align: center;
+}
+
+.member-description h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 10px;
+}
+
+.member-description p {
+    font-size: 1rem;
+    color: #6b7280;
+    margin-bottom: 15px;
+}
+
+.linkedin-logo {
+    width: 30px;
+    height: 30px;
+    transition: transform 0.2s ease;
+}
+
+.linkedin-logo:hover {
+    transform: scale(1.1);
+}
+
+/* Hamburger Menu Styling */
+.hamburger {
+    font-size: 30px;
+    color: #333;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.hamburger:hover {
+    color: #0ea5e9;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px; /* Initially hidden */
+    width: 250px;
+    height: 100%;
+    background-color: #ffffff;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    transition: left 0.3s ease-in-out;
+    z-index: 999;
+}
+
+.sidebar.show {
+    left: 0; /* Visible when 'show' class is added */
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 50px;
+}
+
+.sidebar ul li {
+    padding: 15px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: block;
+    transition: color 0.3s ease;
+}
+
+.sidebar ul li a:hover {
+    color: #0ea5e9;
+}
