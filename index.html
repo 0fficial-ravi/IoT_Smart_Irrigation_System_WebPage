@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT | Smart Control Dashboard</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="shortcut icon" href="./resources/fav2.png" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleButtons = document.querySelectorAll('.toggle-button');
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    // Remove focus from the button after it's clicked
+                    this.blur();
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Welcome to Smart Irrigation Control System</h1>
+        </div>
+        <div class="dashboard">
+            <div class="card">
+                <div class="card-icon">
+                    <img id="thermoIcon" src="./resources/temperature-half-solid.svg" alt="">
+                </div>
+                <div class="card-title">Temperature</div>
+                <div class="card-value" id="temperature-value">-- °C</div>
+            </div>
+
+            <!-- New Humidity Card -->
+            <div class="card">
+                <div class="card-icon">
+                    <img id="humidityIcon" class="humidityLogo" src="./resources/humidity-icon.svg" alt="">
+                </div>
+                <div class="card-title">Humidity</div>
+                <div class="card-value" id="humidity-value">-- %</div>
+            </div>
+            <div class="card">
+                <div class="card-icon dropIcon">
+                    <img src="./resources/droplet.svg" alt="">
+                </div>
+                <div class="card-title">Soil Moisture 1</div>
+                <div class="card-value" id="moisture1-value">-- %</div>
+                <div class="meter">
+                    <div class="meter-fill" id="moisture1-meter"></div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon dropIcon">
+                    <img src="./resources/droplet.svg" alt="">
+                </div>
+                <div class="card-title">Soil Moisture 2</div>
+                <div class="card-value" id="moisture2-value">-- %</div>
+                <div class="meter">
+                    <div class="meter-fill" id="moisture2-meter"></div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon">
+                    <img id="pumpIcon" src="./resources/faucet-solid.svg" alt="">
+                </div>
+                <div class="card-title">Pump Control</div>
+                <div class="toggle-buttons">
+                    <button class="toggle-button" id="pump1-button">Pump One</button>
+                    <button class="toggle-button" id="pump2-button">Pump Two</button>
+                    <button class="toggle-button" id="auto-button">Auto</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart Card -->
+        <div class="chart-card">
+            <div class="card-title">Data Visualization</div>
+            <canvas id="sensorChart" height="100%"></canvas>
+        </div>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+
+</html>

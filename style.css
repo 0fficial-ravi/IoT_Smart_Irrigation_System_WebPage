@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+@font-face {
+    font-family: myFont;
+    src: url(./resources/AlteHaasGroteskBold.ttf);
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: #f9fafb;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1400px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    box-sizing: border-box;
+}
+
+.header h1 {
+    width: 100%;
+    font-family: myFont;
+    font-size: 2rem;
+    font-weight: 500;
+    color: #1e293b;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Dashboard grid layout */
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    width: 100%;
+}
+
+/* Card styling */
+.card {
+    padding: 20px;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #0ea5e9;
+}
+
+.card-icon img {
+    height: 55px;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #1e293b;
+}
+
+.card-value {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #0ea5e9;
+}
+
+.dropIcon
+{
+    animation: jump 3s infinite;
+}
+@keyframes jump {
+    0% { transform: translateY(0) }
+    25% { transform: translateY(8px) }
+    50% { transform: translateY(-8px) }
+    75% { transform: translateY(8px) }
+    100% { transform: translateY(0) }
+   }
+/* Humidity Icon Animation */
+.humidityLogo {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Meter styling */
+.meter {
+    width: 100%;
+    height: 10px;
+    background: #e5e7eb;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+.meter-fill {
+    height: 100%;
+    width: 0;
+    background: #0ea5e9;
+    border-radius: 5px;
+    transition: width 0.3s ease, background 0.3s ease;
+}
+
+/* Button group styling */
+.toggle-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.toggle-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #e5e7eb;
+    color: #333;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.toggle-button.active {
+    background: #0ea5e9;
+    color: #ffffff;
+}
+/* Chart Card */
+.chart-card {
+    padding: 20px;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-top: 30px;
+    width: 100%;
+    max-width: 1400px;
+}
+
+.chart-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.chart-card .card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 20px;
+}
+
+.chart-card canvas {
+    width: 100%;
+    max-width: 1000px;
+    height: auto;
+    margin: 20px auto;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .chart-card canvas {
+        margin: 40px auto;
+    }
+}
