@@ -184,3 +184,30 @@ body {
         margin: 40px auto;
     }
 }
+
+/* Connection Status Styling */
+.connection-status {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #fff;
+    background-color: #f59e0b; /* Default to orange */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.connection-status.connected {
+    background-color: #22c55e; /* Green for connected */
+}
+
+.connection-status.disconnected {
+    background-color: #ef4444; /* Red for disconnected */
+}
+
+.connection-status.error {
+    background-color: #d97706; /* Amber for error */
+}
