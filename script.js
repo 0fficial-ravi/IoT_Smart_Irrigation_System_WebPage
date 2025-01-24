@@ -1,56 +1,102 @@
 var connection = new WebSocket('wss://' + location.hostname + '/ws/');
 
+// Cache DOM elements to minimize DOM lookups
+const pumpButton1 = document.getElementById("pump1-button");
+const pumpButton2 = document.getElementById("pump2-button");
+const autoButtonSwitch = document.getElementById("auto-button");
+const pumpLogo = document.getElementById("pumpIcon");
+const tempValueElement = document.getElementById("temperature-value");
+const humidityValueElement = document.getElementById("humidity-value");
+const moisture1ValueElement = document.getElementById("moisture1-value");
+const moisture2ValueElement = document.getElementById("moisture2-value");
+const thermoIcon = document.getElementById("thermoIcon");
+const sensorChartCtx = document.getElementById('sensorChart').getContext('2d');
 
-var pumpButton1 = document.getElementById("pump1-button");
-var pumpButton2 = document.getElementById("pump2-button");
-var autoButtonSwitch = document.getElementById("auto-button");
-var pumpLogo = document.getElementById("pumpIcon");
+// WebSocket event handlers
+connection.onopen = function () {
+    console.log('WebSocket connected.');
+};
 
-connection.onmessage = function (event) {
-    var full_data = event.data;
-    console.log(full_data);
-    var data = JSON.parse(full_data);
+connection.onclose = function () {
+    console.error('WebSocket closed. Reconnecting...');
+    setTimeout(() => {
+        connection = new WebSocket('wss://' + location.hostname + '/ws/');
+    }, 3000);
+};
 
-    // Update sensor values
-    document.getElementById("temperature-value").innerHTML = data.temp + " °C";
-    document.getElementById("humidity-value").innerHTML = data.hum + "%";
-    document.getElementById("moisture1-value").innerHTML = data.moisOne + "%";
-    document.getElementById("moisture2-value").innerHTML = data.moisTwo + "%";
+connection.onerror = function (error) {
+    console.error('WebSocket error:', error);
+};
 
-    // Update button states
-    updateButtonState(pumpButton1, data.pump1);
-    updateButtonState(pumpButton2, data.pump2);
-    updateButtonState(autoButtonSwitch, data.autoSwitch);
-
-    // Update dynamic elements
-    updateMeter('moisture1-meter', data.moisOne);
-    updateMeter('moisture2-meter', data.moisTwo);
-    updateTemperatureIcon(data.temp);
-    fetchAndUpdateChart(data);
-
-    // Update pump logo based on active buttons
-    if (data.pump1 || data.pump2) {
-        pumpLogo.src = "./resources/faucet-drip-solid.svg";
-    } else {
-        pumpLogo.src = "./resources/faucet-solid.svg";
+connection.onmessage = (event) => {
+    try {
+        const data = JSON.parse(event.data);
+        updateUI(data);
+    } catch (error) {
+        console.error('Error parsing WebSocket message:', error);
     }
 };
 
-// Function to update button states
+// Update UI elements
+function updateUI(data) {
+    requestAnimationFrame(() => {
+        tempValueElement.textContent = `${data.temp} °C`;
+        humidityValueElement.textContent = `${data.hum}%`;
+        moisture1ValueElement.textContent = `${data.moisOne}%`;
+        moisture2ValueElement.textContent = `${data.moisTwo}%`;
+
+        updateButtonState(pumpButton1, data.pump1);
+        updateButtonState(pumpButton2, data.pump2);
+        updateButtonState(autoButtonSwitch, data.autoSwitch);
+
+        updateMeter('moisture1-meter', data.moisOne);
+        updateMeter('moisture2-meter', data.moisTwo);
+        updateTemperatureIcon(data.temp);
+
+        updatePumpLogo(data.pump1 || data.pump2);
+        fetchAndUpdateChart(data);
+    });
+}
+
 function updateButtonState(button, isActive) {
-    if (isActive) {
-        button.classList.add('active');
+    button.classList.toggle('active', isActive);
+}
+
+function updateMeter(id, value) {
+    const meter = document.getElementById(id);
+    const percentage = Math.min(100, Math.max(0, value));
+
+    meter.style.width = `${percentage}%`;
+    meter.style.background =
+        percentage <= 10
+            ? 'linear-gradient(to right, red, darkred)'
+            : percentage >= 80
+            ? 'linear-gradient(to right, #00D4FF, #0961FB)'
+            : 'linear-gradient(to right, #0EA5E9, #0077B6)';
+}
+
+function updateTemperatureIcon(tempValue) {
+    if (tempValue <= 20) {
+        thermoIcon.src = "./resources/temperature-empty.svg";
+        tempValueElement.style.color = "#74C0FC";
+    } else if (tempValue >= 35) {
+        thermoIcon.src = "./resources/temperature-full-solid.svg";
+        tempValueElement.style.color = "red";
     } else {
-        button.classList.remove('active');
+        thermoIcon.src = "./resources/temperature-half-solid.svg";
+        tempValueElement.style.color = "orange";
     }
 }
 
+function updatePumpLogo(isActive) {
+    const newSrc = isActive
+        ? "./resources/faucet-drip-solid.svg"
+        : "./resources/faucet-solid.svg";
+    if (pumpLogo.src !== newSrc) pumpLogo.src = newSrc;
+}
 
-
-// Initialize the chart
-const ctx = document.getElementById('sensorChart').getContext('2d');
-
-const sensorChart = new Chart(ctx, {
+// Initialize Chart.js
+const sensorChart = new Chart(sensorChartCtx, {
     type: 'line',
     data: {
         labels: [],
@@ -83,38 +129,36 @@ const sensorChart = new Chart(ctx, {
     },
     options: {
         responsive: true,
-        maintainAspectRatio: true, // Keep a fixed aspect ratio
-        aspectRatio: 2, // Chart width to height ratio
+        maintainAspectRatio: true,
+        aspectRatio: 2,
         scales: {
             x: {
                 title: {
                     display: true,
                     text: 'Time',
                 },
-            },
-            x: {
                 ticks: {
-                    padding: 10 // Increase the padding between labels
-                }
+                    padding: 10,
+                },
             },
             y: {
                 title: {
                     display: true,
                     text: 'Values',
                 },
-                min:0,
-                max:100,
+                min: 0,
+                max: 100,
             },
         },
     },
 });
 
-let lastUpdateTime = Date.now();
 let tempSum = 0,
     humSum = 0,
     moisOneSum = 0,
-    moisTwoSum = 0;
-let count = 0;
+    moisTwoSum = 0,
+    count = 0;
+let lastUpdateTime = Date.now();
 
 function fetchAndUpdateChart(data) {
     tempSum += data.temp;
@@ -151,61 +195,21 @@ function fetchAndUpdateChart(data) {
     }
 }
 
-
-// Function to send data back to the server
-function send_data() {
-    const pumpOneStatus = pumpButton1.classList.contains('active') ? 1 : 0;
-    const pumpTwoStatus = pumpButton2.classList.contains('active') ? 1 : 0;
-    const autoModeValue = autoButtonSwitch.classList.contains('active') ? 1 : 0;
-
-    const full_data = JSON.stringify({
-        pump1: pumpOneStatus,
-        pump2: pumpTwoStatus,
-        autoSwitch: autoModeValue,
-    });
-
-    console.log(full_data);
-    connection.send(full_data);
-}
-
 // Handle toggle button clicks
 const toggleButtons = document.querySelectorAll('.toggle-button');
-toggleButtons.forEach(button => {
+toggleButtons.forEach((button) => {
     button.addEventListener('click', () => {
         button.classList.toggle('active');
-        send_data();
+        sendData();
     });
 });
 
-// Update meter fills dynamically
-function updateMeter(id, value) {
-    const meter = document.getElementById(id);
-    const percentage = Math.min(100, Math.max(0, value));
-    meter.style.width = percentage + '%';
+function sendData() {
+    const full_data = JSON.stringify({
+        pump1: pumpButton1.classList.contains('active') ? 1 : 0,
+        pump2: pumpButton2.classList.contains('active') ? 1 : 0,
+        autoSwitch: autoButtonSwitch.classList.contains('active') ? 1 : 0,
+    });
 
-    if (percentage <= 10) {
-        meter.style.background = 'linear-gradient(to right, red, darkred)';
-    } else if (percentage >= 80) {
-        meter.style.background = 'linear-gradient(to right, #00D4FF, #0961FB)';
-    } else {
-        meter.style.background = 'linear-gradient(to right, #0EA5E9, #0077B6)';
-    }
-}
-
-// Update temperature icon dynamically
-function updateTemperatureIcon(tempValue) {
-    const tempLogo = document.getElementById("thermoIcon");
-    const tempValueElement = document.getElementById("temperature-value");
-
-    if (tempValue <= 20) {
-        tempLogo.src = "./resources/temperature-empty.svg";
-        tempValueElement.style.color = "#74C0FC";
-    } else if (tempValue >= 35) {
-        tempLogo.src = "./resources/temperature-full-solid.svg";
-        tempValueElement.style.color = "red";
-    } else {
-        tempLogo.src = "./resources/temperature-half-solid.svg";
-        tempValueElement.style.color = "orange";
-    }
-    tempValueElement.textContent = tempValue + ' °C';
+    connection.send(full_data);
 }
