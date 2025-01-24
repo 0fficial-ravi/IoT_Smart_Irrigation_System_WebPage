@@ -1,6 +1,8 @@
-var connection = new WebSocket('wss://' + location.hostname + '/ws/');
+let connection = createWebSocket();
+let heartbeatInterval; // Interval for sending pings
+let lastPongTime = Date.now(); // Tracks the last pong response time
 
-// Cache DOM elements to minimize DOM lookups
+// Cache DOM elements
 const pumpButton1 = document.getElementById("pump1-button");
 const pumpButton2 = document.getElementById("pump2-button");
 const autoButtonSwitch = document.getElementById("auto-button");
@@ -11,31 +13,80 @@ const moisture1ValueElement = document.getElementById("moisture1-value");
 const moisture2ValueElement = document.getElementById("moisture2-value");
 const thermoIcon = document.getElementById("thermoIcon");
 const sensorChartCtx = document.getElementById('sensorChart').getContext('2d');
+const connectionStatus = document.getElementById("connection-status");
 
-// WebSocket event handlers
-connection.onopen = function () {
-    console.log('WebSocket connected.');
-};
+// WebSocket creation and reconnection logic
+function createWebSocket() {
+    const ws = new WebSocket('wss://' + location.hostname + '/ws/');
 
-connection.onclose = function () {
-    console.error('WebSocket closed. Reconnecting...');
-    setTimeout(() => {
-        connection = new WebSocket('wss://' + location.hostname + '/ws/');
-    }, 3000);
-};
+    ws.onopen = () => {
+        console.log('WebSocket connected.');
+        updateConnectionStatus('Connected', 'connected');
+        startHeartbeat(ws); // Start heartbeat when connected
+    };
 
-connection.onerror = function (error) {
-    console.error('WebSocket error:', error);
-};
+    ws.onclose = () => {
+        console.error('WebSocket closed. Reconnecting...');
+        updateConnectionStatus('Reconnecting...', 'disconnected');
+        stopHeartbeat(); // Stop heartbeat when disconnected
+        setTimeout(() => {
+            connection = createWebSocket();
+        }, 3000);
+    };
 
-connection.onmessage = (event) => {
-    try {
-        const data = JSON.parse(event.data);
-        updateUI(data);
-    } catch (error) {
-        console.error('Error parsing WebSocket message:', error);
+    ws.onerror = (error) => {
+        console.error('WebSocket error:', error);
+        updateConnectionStatus('Error', 'error');
+    };
+
+    ws.onmessage = (event) => {
+        if (event.data === "pong") {
+            // Reset pong timer on receiving a pong
+            lastPongTime = Date.now();
+        } else {
+            try {
+                const data = JSON.parse(event.data);
+                updateUI(data);
+            } catch (error) {
+                console.error('Error parsing WebSocket message:', error);
+            }
+        }
+    };
+
+    return ws;
+}
+
+// Update connection status display
+function updateConnectionStatus(statusText, state) {
+    if (connectionStatus) {
+        connectionStatus.classList.remove('connected','disconnected','error');
+        connectionStatus.textContent = statusText;
+        connectionStatus.classList.add(state);
     }
-};
+}
+
+// Heartbeat mechanism
+function startHeartbeat(ws) {
+    lastPongTime = Date.now();
+
+    // Send a ping every 5 seconds
+    heartbeatInterval = setInterval(() => {
+        if (ws.readyState === WebSocket.OPEN) {
+            ws.send("ping");
+        }
+
+        // Check if the last pong was received more than 10 seconds ago
+        if (Date.now() - lastPongTime > 10000) {
+            console.warn('Heartbeat failed. Connection seems lost.');
+            updateConnectionStatus('Disconnected', 'red');
+            ws.close(); // Force close the WebSocket
+        }
+    }, 5000);
+}
+
+function stopHeartbeat() {
+    clearInterval(heartbeatInterval);
+}
 
 // Update UI elements
 function updateUI(data) {
