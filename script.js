@@ -15,6 +15,36 @@ const thermoIcon = document.getElementById("thermoIcon");
 const sensorChartCtx = document.getElementById('sensorChart').getContext('2d');
 const connectionStatus = document.getElementById("connection-status");
 
+
+document.addEventListener('DOMContentLoaded', function () {
+    const toggleButtons = document.querySelectorAll('.toggle-button');
+    toggleButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            this.blur();
+        });
+    });
+
+    // Hamburger menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const sidebar = document.getElementById('sidebar');
+
+    hamburger.addEventListener('click', function () {
+        sidebar.classList.toggle('show');
+    });
+
+    // Close the sidebar if the user clicks outside of it
+    document.addEventListener('click', function (event) {
+        if (!sidebar.contains(event.target) && !hamburger.contains(event.target)) {
+            sidebar.classList.remove('show');
+        }
+    });
+
+    // Optional: Close the sidebar if mouse leaves the sidebar area (hover out)
+    sidebar.addEventListener('mouseleave', function () {
+        sidebar.classList.remove('show');
+    });
+});
+
 // WebSocket creation and reconnection logic
 function createWebSocket() {
     const ws = new WebSocket('wss://' + location.hostname + '/ws/');

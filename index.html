@@ -8,23 +8,20 @@
     <link rel="stylesheet" href="./style.css">
     <link rel="shortcut icon" href="./resources/fav2.png" type="image/x-icon">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const toggleButtons = document.querySelectorAll('.toggle-button');
-            toggleButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    // Remove focus from the button after it's clicked
-                    this.blur();
-                });
-            });
-        });
-    </script>
 </head>
 
 <body>
     <div class="container">
+        <!-- Sidebar -->
+        <div id="sidebar" class="sidebar">
+            <ul>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="future.html">Future</a></li>
+            </ul>
+        </div>
         <!-- Header -->
         <div class="header">
+            <div id="hamburger" class="hamburger">&#9776;</div>
             <h1>Welcome to Smart Irrigation Control System</h1>
             <!-- Connection Status -->
             <div id="connection-status" class="connection-status">Connecting...</div>
