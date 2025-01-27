@@ -31,6 +31,25 @@
                 }
             });
         });
+
+
+        function preloadImages(imagePaths) {
+    imagePaths.forEach(path => {
+        const img = new Image();
+        img.src = path;
+    });
+}
+
+// Preload your images
+preloadImages([
+    './guys/g1.jpeg',
+    './guys/g2.jpg',
+    './guys/g3.jpeg',
+    './guys/g4.jpeg',
+    './guys/g5.jpg',
+    './guys/g6.jpeg',
+    './resources/linkedin.svg',
+]);
     </script>
 </head>
 
@@ -54,12 +73,16 @@
         <div class="about-section">
             <div class="team-member">
                 <div class="member-img">
-                    <img src="./resources/man.png" alt="Team Member 1" onerror="this.src='./resources/man.png';">
+                    <img src="./guys/g1.jpeg" alt="Ravi Sharma" onerror="this.src='./guys/g1.jpeg';">
                 </div>
                 <div class="member-description">
-                    <h3>Rohan Singhania</h3>
-                    <p>Cool dude like to play and tinker with hardware parts.</p>
-                    <a href="https://www.linkedin.com/in/member1" target="_blank">
+                    <h3>Ravi Sharma</h3>
+                    <p>A passionate technophile definitely not a <b>NERD</b>,perhaps a geek who likes to tinker around with whatever tech he gets his hands on.And he's always prepared for a Zombie Apocalypse.
+                    <br>
+                    <br>
+                    You can often hear him saying -
+                <br><b><i>Pray for the best, but prepare for the worst <sub>~ Keller Dover</i></b></p>
+                    <a href="https://www.linkedin.com/in/ravi-sharma-ba9ba215b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank">
                         <img src="./resources/linkedin.svg" alt="LinkedIn" class="linkedin-logo">
                     </a>
                 </div>
@@ -67,7 +90,7 @@
 
             <div class="team-member">
                 <div class="member-img">
-                    <img src="./guys/g1.jpg" alt="Team Member 2" onerror="this.src='./resources/man.png';">
+                    <img src="./guys/g2.jpg" alt="Raunak Kumar" onerror="this.src='./guys/g2.jpg';">
                 </div>
                 <div class="member-description">
                     <h3>Raunak Kumar</h3>
@@ -80,25 +103,12 @@
 
             <div class="team-member">
                 <div class="member-img">
-                    <img src="./resources/man.png" alt="Team Member 3" onerror="this.src='./resources/man.png';">
-                </div>
-                <div class="member-description">
-                    <h3>Rahul Sharma</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse quia labore nulla recusandae velit et, omnis iste dignissimos alias nemo dolor architecto hic rem. Vero blanditiis expedita aspernatur veritatis voluptate ipsam, non doloremque quod impedit! Laudantium possimus asperiores fugiat explicabo. Assumenda laboriosam natus voluptatem fuga magnam tenetur quibusdam quaerat non!</p>
-                    <a href="https://www.linkedin.com/in/member3" target="_blank">
-                        <img src="./resources/linkedin.svg" alt="LinkedIn" class="linkedin-logo">
-                    </a>
-                </div>
-            </div>
-
-            <div class="team-member">
-                <div class="member-img">
-                    <img src="./resources/man.png" alt="Team Member 4" onerror="this.src='./resources/man.png';">
+                    <img src="./guys/g3.jpeg" alt="Ramkrishn Rai" onerror="this.src='./guys/g3.jpeg';">
                 </div>
                 <div class="member-description">
                     <h3>Ramkrishn Rai</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur reiciendis qui assumenda, aut nam inventore rem tempore cupiditate. Laudantium, corporis sint facilis id deserunt laborum libero modi odio rem itaque tempora molestias distinctio! Reprehenderit quisquam non molestiae suscipit illo ipsam, rem, natus, eius esse cum libero laudantium ipsa totam architecto?</p>
-                    <a href="https://www.linkedin.com/in/member4" target="_blank">
+                    <p>He doesn’t just code. He lives it. From the moment he wakes up to the second his head hits the pillow, it’s all about algorithms, frameworks, and debugging. Social plans? Nah, he’s too busy making sure his code doesn’t throw any unexpected errors. If there's a line of code he hasn't written yet, consider it a challenge.</p>
+                    <a href="https://www.linkedin.com/in/ramkrishn-rai" target="_blank">
                         <img src="./resources/linkedin.svg" alt="LinkedIn" class="linkedin-logo">
                     </a>
                 </div>
@@ -106,12 +116,38 @@
 
             <div class="team-member">
                 <div class="member-img">
-                    <img src="./resources/man.png" alt="Team Member 5" onerror="this.src='./resources/man.png';">
+                    <img src="./guys/g4.jpeg" alt="Rahul Sharma" onerror="this.src='./guys/g4.jpeg';">
+                </div>
+                <div class="member-description">
+                    <h3>Rahul Sharma</h3>
+                    <p>A tech enthusiast who always tries to work passionately while enjoying his life and keeping himself motivated.You can often find him in his room programming and driving some <b>BLDC's QUAD COPTERS</b></p>
+                    <a href="http://www.linkedin.com/in/rahulsharma3747" target="_blank">
+                        <img src="./resources/linkedin.svg" alt="LinkedIn" class="linkedin-logo">
+                    </a>
+                </div>
+            </div>
+
+            <div class="team-member">
+                <div class="member-img">
+                    <img src="./guys/g5.jpg" alt="Piyush Kumar" onerror="this.src='./guys/g5.jpg';">
                 </div>
                 <div class="member-description">
                     <h3>Piyush Kumar</h3>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere sequi magni in sint sunt! Libero animi vitae hic, quasi numquam sit illo delectus quae velit asperiores laboriosam officiis, provident iusto eligendi nesciunt quam ipsum laborum molestias enim eos dignissimos quia iure deleniti alias? Harum amet, eos accusantium id maiores doloremque.</p>
-                    <a href="https://www.linkedin.com/in/member5" target="_blank">
+                    <p>By day,he's writing clean code. By night? He's out on his bike, dodging traffic like a coding ninja. Oh, and when he’s not building software, he’s visiting new places to “find inspiration for his next project.” Just don’t ask him to build an app that involves walking—he’s much more of a "pedal power" guy.</p>
+                    <a href="https://www.linkedin.com/in/pk214/" target="_blank">
+                        <img src="./resources/linkedin.svg" alt="LinkedIn" class="linkedin-logo">
+                    </a>
+                </div>
+            </div>
+
+            <div class="team-member">
+                <div class="member-img">
+                    <img src="./guys/g6.jpeg" alt="Nilangshu Chatterjee" onerror="this.src='./guys/g6.jpeg';">
+                </div>
+                <div class="member-description">
+                    <h3>Nilangshu Chatterjee</h3>
+                    <p>He is living the balanced life: designing stunning websites while juggling a football in one hand and a bike handlebar in the other. He’s the type who’ll redesign your website while he’s heading out the door for a weekend adventure. His motto? "Designing by day, biking by weekend, football anytime."</p>
+                    <a href="https://www.linkedin.com/in/nilangshu-chatterjee-ba725730a/" target="_blank">
                         <img src="./resources/linkedin.svg" alt="LinkedIn" class="linkedin-logo">
                     </a>
                 </div>
@@ -120,7 +156,7 @@
 
     </div>
 
-    <script src="./script.js"></script>
+    <!-- <script src="./script.js"></script> -->
 </body>
 
 </html>
