@@ -70,17 +70,14 @@ function createWebSocket() {
     };
 
     ws.onmessage = (event) => {
-        
         if (event.data === "pong") {
             // Reset pong timer on receiving a pong
             lastPongTime = Date.now();
-        } 
-        else {
+        } else {
             try {
                 const data = JSON.parse(event.data);
                 updateUI(data);
             } catch (error) {
-                console.log("Received WebSocket message:", event.data); 
                 console.error('Error parsing WebSocket message:', error);
             }
         }
@@ -297,5 +294,3 @@ function sendData() {
 
     connection.send(full_data);
 }
-
-

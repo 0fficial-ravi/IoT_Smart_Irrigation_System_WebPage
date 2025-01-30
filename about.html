@@ -8,48 +8,79 @@
     <link rel="stylesheet" href="./about-style.css">
     <link rel="shortcut icon" href="./resources/fav3.png" type="image/x-icon">
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const toggleButtons = document.querySelectorAll('.toggle-button');
-            toggleButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    this.blur();
-                });
-            });
+         // Enhanced image loader with retries and logging
+    function loadImagesSequentially() {
+        const images = [
+            './guys/g1.webp',
+            './guys/g2.webp',
+            './guys/g3.webp',
+            './guys/g4.webp',
+            './guys/g5.webp',
+            './guys/g6.webp',
+            './resources/linkedin.svg'
+        ];
 
-            // Hamburger menu toggle
+        let currentIndex = 0;
+        const maxRetries = 3;
+        const retryDelays = [1000, 2000, 3000]; // Progressive backoff
+
+        function loadNextImage(retryCount = 0) {
+            if (currentIndex >= images.length) {
+                console.log('All images loaded successfully');
+                return;
+            }
+
+            const img = new Image();
+            const currentImage = images[currentIndex];
+            
+            console.log(`Attempting to load: ${currentImage}${retryCount > 0 ? ` (retry ${retryCount})` : ''}`);
+
+            img.src = currentImage;
+            
+            img.onload = () => {
+                console.log(`Successfully loaded: ${currentImage}`);
+                document.querySelector(`[src="${currentImage}"]`).style.opacity = 1;
+                currentIndex++;
+                setTimeout(() => loadNextImage(), 1000); // Increased delay to 1s
+            };
+
+            img.onerror = () => {
+                if (retryCount < maxRetries) {
+                    console.warn(`Retrying ${currentImage} in ${retryDelays[retryCount]}ms`);
+                    setTimeout(() => loadNextImage(retryCount + 1), retryDelays[retryCount]);
+                } else {
+                    console.error(`Failed to load ${currentImage} after ${maxRetries} attempts`);
+                    currentIndex++;
+                    setTimeout(() => loadNextImage(), 1000);
+                }
+            };
+        }
+
+        // Start loading sequence
+        loadNextImage();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+            // Initialize hamburger menu first
             const hamburger = document.getElementById('hamburger');
             const sidebar = document.getElementById('sidebar');
 
-            hamburger.addEventListener('click', function () {
+            // Hamburger toggle functionality
+            hamburger.addEventListener('click', function(e) {
+                e.stopPropagation(); // Prevent document click handler
                 sidebar.classList.toggle('show');
             });
 
-            // Close hamburger menu if clicked elsewhere
-            document.addEventListener('click', function (e) {
+            // Close menu when clicking outside
+            document.addEventListener('click', function(e) {
                 if (!sidebar.contains(e.target) && !hamburger.contains(e.target)) {
                     sidebar.classList.remove('show');
                 }
             });
+
+            // Start image loading after menu setup
+            loadImagesSequentially();
         });
-
-
-        function preloadImages(imagePaths) {
-    imagePaths.forEach(path => {
-        const img = new Image();
-        img.src = path;
-    });
-}
-
-// Preload your images
-preloadImages([
-    './guys/g1.jpeg',
-    './guys/g2.jpg',
-    './guys/g3.jpeg',
-    './guys/g4.jpeg',
-    './guys/g5.jpg',
-    './guys/g6.jpeg',
-    './resources/linkedin.svg',
-]);
     </script>
 </head>
 
@@ -73,90 +104,87 @@ preloadImages([
         <div class="about-section">
             <div class="team-member">
                 <div class="member-img">
-                    <img src="./guys/g1.jpeg" alt="Ravi Sharma" onerror="this.src='./guys/g1.jpeg';">
+                    <img src="./guys/g1.webp" alt="Ravi Sharma" loading="lazy">
                 </div>
                 <div class="member-description">
                     <h3>Ravi Sharma</h3>
                     <p>A passionate technophile definitely not a <b>NERD</b>,perhaps a geek who likes to tinker around with whatever tech he gets his hands on.And he's always prepared for a Zombie Apocalypse.
-                    <br>
-                    <br>
-                    You can often hear him saying -
-                <br><b><i>Pray for the best, but prepare for the worst <sub>~ Keller Dover</i></b></p>
+                        <br>
+                        <br>
+                        You can often hear him saying -
+                        <br><b><i>Pray for the best, but prepare for the worst <sub>~ Keller Dover</i></b></p>
                     <a href="https://www.linkedin.com/in/ravi-sharma-ba9ba215b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank">
-                        <img src="./resources/linkedin.svg" alt="LinkedIn" class="linkedin-logo">
+                        <img src="./resources/linkedin.svg" alt="LinkedIn" class="linkedin-logo" loading="lazy">
                     </a>
                 </div>
             </div>
 
             <div class="team-member">
                 <div class="member-img">
-                    <img src="./guys/g2.jpg" alt="Raunak Kumar" onerror="this.src='./guys/g2.jpg';">
+                    <img src="./guys/g2.webp" alt="Raunak Kumar" loading="lazy">
                 </div>
                 <div class="member-description">
                     <h3>Raunak Kumar</h3>
                     <p>Likes exploring the world of tech with a curious mind, while always making time for music and the great outdoors to stay inspired and grounded.</p>
                     <a href="https://www.linkedin.com/in/raunak-kumar-a5868826b/" target="_blank">
-                        <img src="./resources/linkedin.svg" alt="LinkedIn" class="linkedin-logo">
+                        <img src="./resources/linkedin.svg" alt="LinkedIn" class="linkedin-logo" loading="lazy">
                     </a>
                 </div>
             </div>
 
             <div class="team-member">
                 <div class="member-img">
-                    <img src="./guys/g3.jpeg" alt="Ramkrishn Rai" onerror="this.src='./guys/g3.jpeg';">
+                    <img src="./guys/g3.webp" alt="Ramkrishn Rai" loading="lazy">
                 </div>
                 <div class="member-description">
                     <h3>Ramkrishn Rai</h3>
                     <p>He doesn’t just code. He lives it. From the moment he wakes up to the second his head hits the pillow, it’s all about algorithms, frameworks, and debugging. Social plans? Nah, he’s too busy making sure his code doesn’t throw any unexpected errors. If there's a line of code he hasn't written yet, consider it a challenge.</p>
                     <a href="https://www.linkedin.com/in/ramkrishn-rai" target="_blank">
-                        <img src="./resources/linkedin.svg" alt="LinkedIn" class="linkedin-logo">
+                        <img src="./resources/linkedin.svg" alt="LinkedIn" class="linkedin-logo" loading="lazy">
                     </a>
                 </div>
             </div>
 
             <div class="team-member">
                 <div class="member-img">
-                    <img src="./guys/g4.jpeg" alt="Rahul Sharma" onerror="this.src='./guys/g4.jpeg';">
+                    <img src="./guys/g4.webp" alt="Rahul Sharma" loading="lazy">
                 </div>
                 <div class="member-description">
                     <h3>Rahul Sharma</h3>
                     <p>A tech enthusiast who always tries to work passionately while enjoying his life and keeping himself motivated.You can often find him in his room programming and driving some <b>BLDC's QUAD COPTERS</b></p>
                     <a href="http://www.linkedin.com/in/rahulsharma3747" target="_blank">
-                        <img src="./resources/linkedin.svg" alt="LinkedIn" class="linkedin-logo">
+                        <img src="./resources/linkedin.svg" alt="LinkedIn" class="linkedin-logo" loading="lazy">
                     </a>
                 </div>
             </div>
 
             <div class="team-member">
                 <div class="member-img">
-                    <img src="./guys/g5.jpg" alt="Piyush Kumar" onerror="this.src='./guys/g5.jpg';">
+                    <img src="./guys/g5.webp" alt="Piyush Kumar" loading="lazy">
                 </div>
                 <div class="member-description">
                     <h3>Piyush Kumar</h3>
                     <p>By day,he's writing clean code. By night? He's out on his bike, dodging traffic like a coding ninja. Oh, and when he’s not building software, he’s visiting new places to “find inspiration for his next project.” Just don’t ask him to build an app that involves walking—he’s much more of a "pedal power" guy.</p>
                     <a href="https://www.linkedin.com/in/pk214/" target="_blank">
-                        <img src="./resources/linkedin.svg" alt="LinkedIn" class="linkedin-logo">
+                        <img src="./resources/linkedin.svg" alt="LinkedIn" class="linkedin-logo" loading="lazy">
                     </a>
                 </div>
             </div>
 
             <div class="team-member">
                 <div class="member-img">
-                    <img src="./guys/g6.jpeg" alt="Nilangshu Chatterjee" onerror="this.src='./guys/g6.jpeg';">
+                    <img src="./guys/g6.webp" alt="Nilangshu Chatterjee" loading="lazy">
                 </div>
                 <div class="member-description">
                     <h3>Nilangshu Chatterjee</h3>
                     <p>He is living the balanced life: designing stunning websites while juggling a football in one hand and a bike handlebar in the other. He’s the type who’ll redesign your website while he’s heading out the door for a weekend adventure. His motto? "Designing by day, biking by weekend, football anytime."</p>
                     <a href="https://www.linkedin.com/in/nilangshu-chatterjee-ba725730a/" target="_blank">
-                        <img src="./resources/linkedin.svg" alt="LinkedIn" class="linkedin-logo">
+                        <img src="./resources/linkedin.svg" alt="LinkedIn" class="linkedin-logo" loading="lazy">
                     </a>
                 </div>
             </div>
         </div>
-
     </div>
-
-    <!-- <script src="./script.js"></script> -->
 </body>
 
 </html>

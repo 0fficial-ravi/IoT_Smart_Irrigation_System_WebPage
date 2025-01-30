@@ -167,3 +167,8 @@ body {
 .sidebar ul li a:hover {
     color: #0ea5e9;
 }
+
+.member-img img {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
